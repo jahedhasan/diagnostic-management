@@ -2,47 +2,33 @@
 session_start();
 error_reporting(0);
 include('includes/dbconnection.php');
-error_reporting(0);
-if (strlen($_SESSION['odlmsuid']==0)) {
+if (strlen($_SESSION['odlmsaid']==0)) {
   header('location:logout.php');
   } else{
-if(isset($_POST['submit']))
-{
-$uid=$_SESSION['odlmsuid'];
-$cpassword=md5($_POST['currentpassword']);
-$newpassword=md5($_POST['newpassword']);
-$sql ="SELECT ID FROM tbluser WHERE ID=:uid and Password=:cpassword";
-$query= $dbh -> prepare($sql);
-$query-> bindParam(':uid', $uid, PDO::PARAM_STR);
-$query-> bindParam(':cpassword', $cpassword, PDO::PARAM_STR);
-$query-> execute();
-$results = $query -> fetchAll(PDO::FETCH_OBJ);
+    if(isset($_POST['submit']))
+  {
+    $adminid=$_SESSION['odlmsaid'];
+    $AName=$_POST['adminname'];
+  $mobno=$_POST['mobilenumber'];
+  $email=$_POST['email'];
+  $sql="update tbladmin set AdminName=:adminname,MobileNumber=:mobilenumber,Email=:email where ID=:aid";
+     $query = $dbh->prepare($sql);
+     $query->bindParam(':adminname',$AName,PDO::PARAM_STR);
+     $query->bindParam(':email',$email,PDO::PARAM_STR);
+     $query->bindParam(':mobilenumber',$mobno,PDO::PARAM_STR);
+     $query->bindParam(':aid',$adminid,PDO::PARAM_STR);
+$query->execute();
 
-if($query -> rowCount() > 0)
-{
-$con="update tbluser set Password=:newpassword where ID=:uid";
-$chngpwd1 = $dbh->prepare($con);
-$chngpwd1-> bindParam(':uid', $uid, PDO::PARAM_STR);
-$chngpwd1-> bindParam(':newpassword', $newpassword, PDO::PARAM_STR);
-$chngpwd1->execute();
+        echo '<script>alert("Profile has been updated")</script>';
+     
 
-echo '<script>alert("Your password successully changed")</script>';
-} else {
-echo '<script>alert("Your current password is wrong")</script>';
-
-}
-
-
-
-}
-
-  
+  }
   ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   
-  <title>Diagnostic- Change Password</title>
+  <title>MTLAB - Admin Profile</title>
   
   <link rel="stylesheet" href="libs/bower/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="libs/bower/material-design-iconic-font/dist/css/material-design-iconic-font.css">
@@ -59,19 +45,6 @@ echo '<script>alert("Your current password is wrong")</script>';
   <script>
     Breakpoints();
   </script>
-  <script type="text/javascript">
-    function checkpass()
-      {
-        if(document.changepassword.newpassword.value!=document.changepassword.confirmpassword.value)
-        {
-          alert('New Password and Confirm Password field does not match');
-          document.changepassword.confirmpassword.focus();
-          return false;
-        }
-      return true;
-    }   
-
-</script>
 </head>
   
 <body class="menubar-left menubar-unfold menubar-light theme-primary">
@@ -90,35 +63,56 @@ echo '<script>alert("Your current password is wrong")</script>';
       <div class="col-md-12">
         <div class="widget">
           <header class="widget-header">
-            <h3 class="widget-title">Change Password</h3>
+            <h3 class="widget-title">Admin Profile</h3>
           </header><!-- .widget-header -->
           <hr class="widget-separator">
           <div class="widget-body">
-            
-            <form class="form-horizontal" onsubmit="return checkpass();" name="changepassword" method="post">
+            <?php
+
+$sql="SELECT * from  tbladmin";
+$query = $dbh -> prepare($sql);
+$query->execute();
+$results=$query->fetchAll(PDO::FETCH_OBJ);
+$cnt=1;
+if($query->rowCount() > 0)
+{
+foreach($results as $row)
+{               ?>
+            <form class="form-horizontal" method="post">
               <div class="form-group">
-                <label for="exampleTextInput1" class="col-sm-3 control-label">Current Password:</label>
+                <label for="exampleTextInput1" class="col-sm-3 control-label">Admin Name:</label>
                 <div class="col-sm-9">
-                  <input type="password" class="form-control" name="currentpassword" id="currentpassword"required='true'>
+                  <input type="text" class="form-control" id="exampleTextInput1" name="adminname" value="<?php  echo $row->AdminName;?>" required='true'>
                 </div>
               </div>
               <div class="form-group">
-                <label for="email2" class="col-sm-3 control-label">New Password:</label>
+                <label for="email2" class="col-sm-3 control-label">User Name:</label>
                 <div class="col-sm-9">
-                  <input type="password" class="form-control" name="newpassword"  class="form-control" required="true">
+                  <input type="text" class="form-control" id="email2" name="username" value="<?php  echo $row->UserName;?>" readonly="true">
                 </div>
               </div>
               <div class="form-group">
-                <label for="email2" class="col-sm-3 control-label">Confirm Password:</label>
+                <label for="email2" class="col-sm-3 control-label">Email:</label>
                 <div class="col-sm-9">
-                  <input type="password" class="form-control"  name="confirmpassword" id="confirmpassword"  required='true'>
+                  <input type="email" class="form-control" id="email2" name="email" value="<?php  echo $row->Email;?>" required='true'>
                 </div>
               </div>
-               
-            
+               <div class="form-group">
+                <label for="email2" class="col-sm-3 control-label">Contact Number:</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="email2" name="mobilenumber" value="<?php  echo $row->MobileNumber;?>" required='true' maxlength='10'>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="email2" class="col-sm-3 control-label">Admin Registration Date:</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="email2" name="" value="<?php  echo $row->AdminRegdate;?>" readonly="true">
+                </div>
+              </div>
+             <?php $cnt=$cnt+1;}} ?>
               <div class="row">
                 <div class="col-sm-9 col-sm-offset-3">
-                  <button type="submit" class="btn btn-success" name="submit">Change</button>
+                  <button type="submit" class="btn btn-success" name="submit">Update</button>
                 </div>
               </div>
             </form>

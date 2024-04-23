@@ -2,47 +2,44 @@
 session_start();
 error_reporting(0);
 include('includes/dbconnection.php');
-error_reporting(0);
-if (strlen($_SESSION['odlmsuid']==0)) {
+if (strlen($_SESSION['odlmsaid']==0)) {
   header('location:logout.php');
   } else{
-if(isset($_POST['submit']))
-{
-$uid=$_SESSION['odlmsuid'];
-$cpassword=md5($_POST['currentpassword']);
-$newpassword=md5($_POST['newpassword']);
-$sql ="SELECT ID FROM tbluser WHERE ID=:uid and Password=:cpassword";
-$query= $dbh -> prepare($sql);
-$query-> bindParam(':uid', $uid, PDO::PARAM_STR);
-$query-> bindParam(':cpassword', $cpassword, PDO::PARAM_STR);
-$query-> execute();
-$results = $query -> fetchAll(PDO::FETCH_OBJ);
-
-if($query -> rowCount() > 0)
-{
-$con="update tbluser set Password=:newpassword where ID=:uid";
-$chngpwd1 = $dbh->prepare($con);
-$chngpwd1-> bindParam(':uid', $uid, PDO::PARAM_STR);
-$chngpwd1-> bindParam(':newpassword', $newpassword, PDO::PARAM_STR);
-$chngpwd1->execute();
-
-echo '<script>alert("Your password successully changed")</script>';
-} else {
-echo '<script>alert("Your current password is wrong")</script>';
-
-}
+    if(isset($_POST['submit']))
+  {
+      $title=$_POST['title'];
+      $desc=$_POST['description'];
+      $interpretation=$_POST['interpretation'];
+      $price=$_POST['price'];
 
 
+      $sql="insert into tbllabtest(TestTitle,TestDescription,TestInterpretation,Price)values(:title,:desc,:interpretation,:price)";
+      $query=$dbh->prepare($sql);
+      $query->bindParam(':title',$title,PDO::PARAM_STR);
+      $query->bindParam(':desc',$desc,PDO::PARAM_STR);
+      $query->bindParam(':interpretation',$interpretation,PDO::PARAM_STR);
+      $query->bindParam(':price',$price,PDO::PARAM_STR);
+       $query->execute();
 
-}
+         $LastInsertId=$dbh->lastInsertId();
+         if ($LastInsertId>0) {
+          echo '<script>alert("Test detail has been added.")</script>';
+      echo "<script>window.location.href ='add-test.php'</script>";
+        }
+        else
+          {
+               echo '<script>alert("Something Went Wrong. Please try again")</script>';
+          }
 
   
-  ?>
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   
-  <title>Diagnostic- Change Password</title>
+  <title>Add Test Detail</title>
   
   <link rel="stylesheet" href="libs/bower/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="libs/bower/material-design-iconic-font/dist/css/material-design-iconic-font.css">
@@ -59,19 +56,7 @@ echo '<script>alert("Your current password is wrong")</script>';
   <script>
     Breakpoints();
   </script>
-  <script type="text/javascript">
-    function checkpass()
-      {
-        if(document.changepassword.newpassword.value!=document.changepassword.confirmpassword.value)
-        {
-          alert('New Password and Confirm Password field does not match');
-          document.changepassword.confirmpassword.focus();
-          return false;
-        }
-      return true;
-    }   
-
-</script>
+  
 </head>
   
 <body class="menubar-left menubar-unfold menubar-light theme-primary">
@@ -90,35 +75,41 @@ echo '<script>alert("Your current password is wrong")</script>';
       <div class="col-md-12">
         <div class="widget">
           <header class="widget-header">
-            <h3 class="widget-title">Change Password</h3>
+            <h3 class="widget-title">Add Test Detail</h3>
           </header><!-- .widget-header -->
           <hr class="widget-separator">
           <div class="widget-body">
-            
-            <form class="form-horizontal" onsubmit="return checkpass();" name="changepassword" method="post">
+           
+            <form class="form-horizontal" method="post">
               <div class="form-group">
-                <label for="exampleTextInput1" class="col-sm-3 control-label">Current Password:</label>
+                <label for="exampleTextInput1" class="col-sm-3 control-label">Test Title:</label>
                 <div class="col-sm-9">
-                  <input type="password" class="form-control" name="currentpassword" id="currentpassword"required='true'>
+                  <input type="text" class="form-control" id="exampleTextInput1" name="title" value="" required='true'>
                 </div>
               </div>
               <div class="form-group">
-                <label for="email2" class="col-sm-3 control-label">New Password:</label>
+                <label for="email2" class="col-sm-3 control-label">Test Description:</label>
                 <div class="col-sm-9">
-                  <input type="password" class="form-control" name="newpassword"  class="form-control" required="true">
+                  <textarea type="text" class="form-control" id="email2" name="description" value="" required="true"></textarea>
                 </div>
               </div>
               <div class="form-group">
-                <label for="email2" class="col-sm-3 control-label">Confirm Password:</label>
+                <label for="email2" class="col-sm-3 control-label">Test Interpretation:</label>
                 <div class="col-sm-9">
-                  <input type="password" class="form-control"  name="confirmpassword" id="confirmpassword"  required='true'>
+                  <textarea type="text" class="form-control" id="email2" name="interpretation" value="" required='true'></textarea>
                 </div>
               </div>
-               
-            
+               <div class="form-group">
+                <label for="email2" class="col-sm-3 control-label">Price:</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="email2" name="price" value="" required='true'>
+                </div>
+              </div>
+             
+           
               <div class="row">
                 <div class="col-sm-9 col-sm-offset-3">
-                  <button type="submit" class="btn btn-success" name="submit">Change</button>
+                  <button type="submit" class="btn btn-success" name="submit">Add</button>
                 </div>
               </div>
             </form>

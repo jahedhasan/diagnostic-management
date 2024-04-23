@@ -3,26 +3,26 @@ session_start();
 error_reporting(0);
 include('includes/dbconnection.php');
 error_reporting(0);
-if (strlen($_SESSION['odlmsuid']==0)) {
+if (strlen($_SESSION['odlmsaid']==0)) {
   header('location:logout.php');
   } else{
 if(isset($_POST['submit']))
 {
-$uid=$_SESSION['odlmsuid'];
+$adminid=$_SESSION['odlmsaid'];
 $cpassword=md5($_POST['currentpassword']);
 $newpassword=md5($_POST['newpassword']);
-$sql ="SELECT ID FROM tbluser WHERE ID=:uid and Password=:cpassword";
+$sql ="SELECT ID FROM tbladmin WHERE ID=:adminid and Password=:cpassword";
 $query= $dbh -> prepare($sql);
-$query-> bindParam(':uid', $uid, PDO::PARAM_STR);
+$query-> bindParam(':adminid', $adminid, PDO::PARAM_STR);
 $query-> bindParam(':cpassword', $cpassword, PDO::PARAM_STR);
 $query-> execute();
 $results = $query -> fetchAll(PDO::FETCH_OBJ);
 
 if($query -> rowCount() > 0)
 {
-$con="update tbluser set Password=:newpassword where ID=:uid";
+$con="update tbladmin set Password=:newpassword where ID=:adminid";
 $chngpwd1 = $dbh->prepare($con);
-$chngpwd1-> bindParam(':uid', $uid, PDO::PARAM_STR);
+$chngpwd1-> bindParam(':adminid', $adminid, PDO::PARAM_STR);
 $chngpwd1-> bindParam(':newpassword', $newpassword, PDO::PARAM_STR);
 $chngpwd1->execute();
 
@@ -42,7 +42,7 @@ echo '<script>alert("Your current password is wrong")</script>';
 <html lang="en">
 <head>
   
-  <title>Diagnostic- Change Password</title>
+  <title>Dingnostic Centre - Change Password</title>
   
   <link rel="stylesheet" href="libs/bower/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="libs/bower/material-design-iconic-font/dist/css/material-design-iconic-font.css">
@@ -60,16 +60,16 @@ echo '<script>alert("Your current password is wrong")</script>';
     Breakpoints();
   </script>
   <script type="text/javascript">
-    function checkpass()
-      {
-        if(document.changepassword.newpassword.value!=document.changepassword.confirmpassword.value)
-        {
-          alert('New Password and Confirm Password field does not match');
-          document.changepassword.confirmpassword.focus();
-          return false;
-        }
-      return true;
-    }   
+function checkpass()
+{
+if(document.changepassword.newpassword.value!=document.changepassword.confirmpassword.value)
+{
+alert('New Password and Confirm Password field does not match');
+document.changepassword.confirmpassword.focus();
+return false;
+}
+return true;
+}   
 
 </script>
 </head>
