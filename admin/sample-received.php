@@ -13,7 +13,7 @@ if (strlen($_SESSION['odlmsaid']==0)) {
 <html lang="en">
 <head>
 	
-	<title> Sample Received Detail</title>
+	<title>Diagnostic Centre || Sample Received Detail</title>
 	
 	<link rel="stylesheet" href="libs/bower/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="libs/bower/material-design-iconic-font/dist/css/material-design-iconic-font.css">
@@ -72,31 +72,41 @@ if (strlen($_SESSION['odlmsaid']==0)) {
 								</thead>
 							
 								<tbody>
+                  <?php
+$sql="SELECT * from  tblappointment where Status='Delivered to Lab'";
+$query = $dbh -> prepare($sql);
+$query->execute();
+$results=$query->fetchAll(PDO::FETCH_OBJ);
 
+$cnt=1;
+if($query->rowCount() > 0)
+{
+foreach($results as $row)
+{               ?>
 									<tr>
-										<td>1</td>
-										<td>12345</td>
-										<td>Kazi Sanir</td>
-										<td>01822828282</td>
-										<td>sanir@gmail.com</td>
-                                       <td>Delivered to Lab</td>                
+										<td><?php echo htmlentities($cnt);?></td>
+										<td><?php  echo htmlentities($row->AppointmentNumber);?></td>
+										<td><?php  echo htmlentities($row->PatientName);?></td>
+										<td><?php  echo htmlentities($row->MobileNumber);?></td>
+										<td><?php  echo htmlentities($row->Email);?></td>
+                                       <td><?php  echo htmlentities($row->Status);?></td>                
                  
-										<td><a href="#"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+										<td><a href="view-samplereceived-detail.php?editid=<?php echo htmlentities ($row->ID);?>&&aptid=<?php echo htmlentities ($row->AppointmentNumber);?>"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
 									</tr>
-								
+								 <?php $cnt=$cnt+1;}} ?> 
 	
 								</tbody>
-			                  <tfoot>
-			                  <tr>
-			                  <th>S.No</th>
+                  <tfoot>
+                  <tr>
+                  <th>S.No</th>
 										<th>Appointment Number</th>
 										<th>Patient Name</th>
 										<th>Mobile Number</th>
 										<th>Email</th>
 										<th>Status</th>
 										<th>Action</th>
-			                  </tr>
-			                </tfoot>
+                  </tr>
+                </tfoot>
 							</table>
 						</div>
 					</div><!-- .widget-body -->

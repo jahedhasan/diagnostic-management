@@ -42,7 +42,7 @@ echo '<script>alert("Your current password is wrong")</script>';
 <html lang="en">
 <head>
   
-  <title>Diagnostic- Change Password</title>
+  <title>Diagnostic Centre - Change Password</title>
   
   <link rel="stylesheet" href="libs/bower/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="libs/bower/material-design-iconic-font/dist/css/material-design-iconic-font.css">
@@ -60,16 +60,16 @@ echo '<script>alert("Your current password is wrong")</script>';
     Breakpoints();
   </script>
   <script type="text/javascript">
-    function checkpass()
-      {
-        if(document.changepassword.newpassword.value!=document.changepassword.confirmpassword.value)
-        {
-          alert('New Password and Confirm Password field does not match');
-          document.changepassword.confirmpassword.focus();
-          return false;
-        }
-      return true;
-    }   
+function checkpass()
+{
+if(document.changepassword.newpassword.value!=document.changepassword.confirmpassword.value)
+{
+alert('New Password and Confirm Password field does not match');
+document.changepassword.confirmpassword.focus();
+return false;
+}
+return true;
+}   
 
 </script>
 </head>

@@ -11,7 +11,7 @@ if (strlen($_SESSION['odlmsaid']==0)) {
 <html lang="en">
 <head>
   
-  <title> Appointment Between Dates Report</title>
+  <title>Diagnostic Centre - Appointment Between Dates Report</title>
   
   <link rel="stylesheet" href="libs/bower/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="libs/bower/material-design-iconic-font/dist/css/material-design-iconic-font.css">
@@ -51,7 +51,7 @@ if (strlen($_SESSION['odlmsaid']==0)) {
           <hr class="widget-separator">
           <div class="widget-body">
            
-            <form class="form-horizontal" method="post" name="bwdatesreport" action="#">
+            <form class="form-horizontal" method="post" name="bwdatesreport" action="appointment-bwdates-reports-details.php">
               <div class="form-group">
                 <label for="exampleTextInput1" class="col-sm-3 control-label">From Date:</label>
                 <div class="col-sm-9">

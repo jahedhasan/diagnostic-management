@@ -13,7 +13,7 @@ if (strlen($_SESSION['odlmsaid']==0)) {
 <html lang="en">
 <head>
 	
-	<title> New Appointment Detail</title>
+	<title>Diagnostic Centre || New Appointment Detail</title>
 	
 	<link rel="stylesheet" href="libs/bower/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="libs/bower/material-design-iconic-font/dist/css/material-design-iconic-font.css">
@@ -72,40 +72,46 @@ if (strlen($_SESSION['odlmsaid']==0)) {
 								</thead>
 							
 								<tbody>
-									<tr>
-										<td>1</td>
-										<td>102030</td>
-										<td>Jahed Hasan</td>
-										<td>01829284769</td>
-										<td>jahed.duet@gmail.com</td>
+                  <?php
+$sql="SELECT * from  tblappointment where Status is null";
+$query = $dbh -> prepare($sql);
+$query->execute();
+$results=$query->fetchAll(PDO::FETCH_OBJ);
 
-                     					<td>Not Updated Yet</td>        
-										<td><i class="fa fa-eye" aria-hidden="true"></i></a></td>
-									</tr>
+$cnt=1;
+if($query->rowCount() > 0)
+{
+foreach($results as $row)
+{               ?>
 									<tr>
-										<td>2</td>
-										<td>502030</td>
-										<td>Test</td>
-										<td>01829284769</td>
-										<td>jahed.duet@gmail.com</td>
+										<td><?php echo htmlentities($cnt);?></td>
+										<td><?php  echo htmlentities($row->AppointmentNumber);?></td>
+										<td><?php  echo htmlentities($row->PatientName);?></td>
+										<td><?php  echo htmlentities($row->MobileNumber);?></td>
+										<td><?php  echo htmlentities($row->Email);?></td>
+                                             <?php if($row->Status==""){ ?>
 
-                     					<td>Approved</td>        
-										<td><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                     <td><?php echo "Not Updated Yet"; ?></td>
+<?php } else { ?>                  <td><?php  echo htmlentities($row->Status);?>
+                  </td>
+                  <?php } ?>         
+                 
+										<td><a href="view-appointment-detail.php?editid=<?php echo htmlentities ($row->ID);?>&&aptid=<?php echo htmlentities ($row->AppointmentNumber);?>"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
 									</tr>
-								
+								 <?php $cnt=$cnt+1;}} ?> 
 	
 								</tbody>
-				                  <tfoot>
-				                  <tr>
-				                  <th>S.No</th>
+                  <tfoot>
+                  <tr>
+                  <th>S.No</th>
 										<th>Appointment Number</th>
 										<th>Patient Name</th>
 										<th>Mobile Number</th>
 										<th>Email</th>
 										<th>Status</th>
 										<th>Action</th>
-				                  </tr>
-				                </tfoot>
+                  </tr>
+                </tfoot>
 							</table>
 						</div>
 					</div><!-- .widget-body -->

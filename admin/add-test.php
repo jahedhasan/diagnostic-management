@@ -7,29 +7,31 @@ if (strlen($_SESSION['odlmsaid']==0)) {
   } else{
     if(isset($_POST['submit']))
   {
-      $title=$_POST['title'];
-      $desc=$_POST['description'];
-      $interpretation=$_POST['interpretation'];
-      $price=$_POST['price'];
 
 
-      $sql="insert into tbllabtest(TestTitle,TestDescription,TestInterpretation,Price)values(:title,:desc,:interpretation,:price)";
-      $query=$dbh->prepare($sql);
-      $query->bindParam(':title',$title,PDO::PARAM_STR);
-      $query->bindParam(':desc',$desc,PDO::PARAM_STR);
-      $query->bindParam(':interpretation',$interpretation,PDO::PARAM_STR);
-      $query->bindParam(':price',$price,PDO::PARAM_STR);
-       $query->execute();
+$title=$_POST['title'];
+$desc=$_POST['description'];
+$interpretation=$_POST['interpretation'];
+$price=$_POST['price'];
 
-         $LastInsertId=$dbh->lastInsertId();
-         if ($LastInsertId>0) {
-          echo '<script>alert("Test detail has been added.")</script>';
-      echo "<script>window.location.href ='add-test.php'</script>";
-        }
-        else
-          {
-               echo '<script>alert("Something Went Wrong. Please try again")</script>';
-          }
+
+$sql="insert into tbllabtest(TestTitle,TestDescription,TestInterpretation,Price)values(:title,:desc,:interpretation,:price)";
+$query=$dbh->prepare($sql);
+$query->bindParam(':title',$title,PDO::PARAM_STR);
+$query->bindParam(':desc',$desc,PDO::PARAM_STR);
+$query->bindParam(':interpretation',$interpretation,PDO::PARAM_STR);
+$query->bindParam(':price',$price,PDO::PARAM_STR);
+ $query->execute();
+
+   $LastInsertId=$dbh->lastInsertId();
+   if ($LastInsertId>0) {
+    echo '<script>alert("Test detail has been added.")</script>';
+echo "<script>window.location.href ='add-test.php'</script>";
+  }
+  else
+    {
+         echo '<script>alert("Something Went Wrong. Please try again")</script>';
+    }
 
   
 }
@@ -39,7 +41,7 @@ if (strlen($_SESSION['odlmsaid']==0)) {
 <html lang="en">
 <head>
   
-  <title>Add Test Detail</title>
+  <title>Diagnostic Centre - Add Test Detail</title>
   
   <link rel="stylesheet" href="libs/bower/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="libs/bower/material-design-iconic-font/dist/css/material-design-iconic-font.css">

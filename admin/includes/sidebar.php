@@ -9,18 +9,17 @@
       <div class="media-body">
         <div class="foldable">
           <?php
-            $aid=$_SESSION['odlmsaid'];
-            $sql="SELECT AdminName,Email from  tbladmin where ID=:aid";
-            $query = $dbh -> prepare($sql);
-            $query->bindParam(':aid',$aid,PDO::PARAM_STR);
-            $query->execute();
-            $results=$query->fetchAll(PDO::FETCH_OBJ);
-            $cnt=1;
-            if($query->rowCount() > 0)
-            {
-            foreach($results as $row)
-            {               
-          ?>
+$aid=$_SESSION['odlmsaid'];
+$sql="SELECT AdminName,Email from  tbladmin where ID=:aid";
+$query = $dbh -> prepare($sql);
+$query->bindParam(':aid',$aid,PDO::PARAM_STR);
+$query->execute();
+$results=$query->fetchAll(PDO::FETCH_OBJ);
+$cnt=1;
+if($query->rowCount() > 0)
+{
+foreach($results as $row)
+{               ?>
           <h5><a href="javascript:void(0)" class="username"><?php  echo $row->AdminName;?></a></h5><?php $cnt=$cnt+1;}} ?>
           
           <ul>
@@ -93,8 +92,8 @@
             <i class="menu-caret zmdi zmdi-hc-sm zmdi-chevron-right"></i>
           </a>
           <ul class="submenu">
-            <li><a href="#"><span class="menu-text">Add Emplooyee</span></a></li>
-            <li><a href="#"><span class="menu-text">Manage Emplooyee</span></a></li>
+            <li><a href="add-lab-emp.php"><span class="menu-text">Add Emplooyee</span></a></li>
+            <li><a href="manage-lab-emp.php"><span class="menu-text">Manage Emplooyee</span></a></li>
           </ul>
         </li>
 
@@ -107,8 +106,8 @@
           <ul class="submenu">
             <li><a href="new-appointment.php"><span class="menu-text">New</span></a></li>
             <li><a href="approved-appointment.php"><span class="menu-text">Approved</span></a></li>
-            <li><a href="#"><span class="menu-text">Rejected</span></a></li>
-            <li><a href="#"><span class="menu-text">User Cancelled</span></a></li>
+            <li><a href="rejected-appointment.php"><span class="menu-text">Rejected</span></a></li>
+            <li><a href="usercancel-appointment.php"><span class="menu-text">User Cancelled</span></a></li>
            
           </ul>
         </li>
@@ -145,8 +144,8 @@
           </a>
           <ul class="submenu">
             <li><a href="appointment-bwdates.php"><span class="menu-text">B/w date Appointment Reports</span></a></li>
-            <li><a href="#"><span class="menu-text">Sales Report </span></a></li>
-            <li><a href="#"><span class="menu-text">Employeewise Report </span></a></li>
+            <li><a href="sales-report.php"><span class="menu-text">Sales Report </span></a></li>
+            <li><a href="empwise-report.php"><span class="menu-text">Employeewise Report </span></a></li>
            
           </ul>
         </li>

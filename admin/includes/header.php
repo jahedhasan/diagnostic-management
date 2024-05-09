@@ -47,17 +47,17 @@
 
           <div class="media-group dropdown-menu animated flipInY">
          <?php
-            $sql="SELECT * from tblappointment  where Status is null";
-            $query = $dbh -> prepare($sql);
-            $query->execute();
-            $results=$query->fetchAll(PDO::FETCH_OBJ);
+$sql="SELECT * from tblappointment  where Status is null";
+$query = $dbh -> prepare($sql);
+$query->execute();
+$results=$query->fetchAll(PDO::FETCH_OBJ);
 
-            $cnt=1;
-            $totalappintments=$query->rowCount();
-            foreach($results as $row)
-            { 
+$cnt=1;
+$totalappintments=$query->rowCount();
+foreach($results as $row)
+{ 
 
-        ?>
+  ?>
 
             <a href="view-appointment-detail.php?editid=<?php echo $row->ID;?>&&aptid=<?php echo $row->AppointmentNumber;?>" class="media-group-item">
               <div class="media">
@@ -83,17 +83,17 @@
 
           <div class="media-group dropdown-menu animated flipInY">
          <?php
-            $sql="SELECT * from tblappointment  where Status='Delivered to Lab'";
-            $query = $dbh -> prepare($sql);
-            $query->execute();
-            $results=$query->fetchAll(PDO::FETCH_OBJ);
+$sql="SELECT * from tblappointment  where Status='Delivered to Lab'";
+$query = $dbh -> prepare($sql);
+$query->execute();
+$results=$query->fetchAll(PDO::FETCH_OBJ);
 
-            $cnt=1;
-            $totalappintments=$query->rowCount();
-            foreach($results as $row)
-            { 
+$cnt=1;
+$totalappintments=$query->rowCount();
+foreach($results as $row)
+{ 
 
-        ?>
+  ?>
 
             <a href="view-samplereceived-detail.php?editid=<?php echo $row->ID;?>&&aptid=<?php echo $row->AppointmentNumber;?>" class="media-group-item">
               <div class="media">

@@ -14,7 +14,7 @@ if (strlen($_SESSION['odlmsaid']==0)) {
 <head>
 	
 	
-	<title>Manage Test Detail</title>
+	<title>Diagnostic Centre - Manage Test Detail</title>
 	
 	<link rel="stylesheet" href="libs/bower/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="libs/bower/material-design-iconic-font/dist/css/material-design-iconic-font.css">
@@ -71,18 +71,17 @@ if (strlen($_SESSION['odlmsaid']==0)) {
 								</thead>
 							
 								<tbody>
-				                  <?php
-									$sql="SELECT * from tbllabtest";
-									$query = $dbh -> prepare($sql);
-									$query->execute();
-									$results=$query->fetchAll(PDO::FETCH_OBJ);
+                  <?php
+$sql="SELECT * from tbllabtest";
+$query = $dbh -> prepare($sql);
+$query->execute();
+$results=$query->fetchAll(PDO::FETCH_OBJ);
 
-									$cnt=1;
-									if($query->rowCount() > 0)
-									{
-									foreach($results as $row)
-									{               
-								  ?>
+$cnt=1;
+if($query->rowCount() > 0)
+{
+foreach($results as $row)
+{               ?>
 									<tr>
 										<td><?php echo htmlentities($cnt);?></td>
 										<td><?php  echo htmlentities($row->TestTitle);?></td>
